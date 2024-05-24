@@ -3,13 +3,26 @@ import classes from './page.module.css';
 import { getMeal } from '@/lib/meals';
 import { notFound } from 'next/navigation';
 
+export const generateMetadata = async ({ params }) => {
+	const meal = getMeal(params.mealSlug);
+	
+	if (!meal) {
+		notFound(); // closest notfound page show
+	}
+	
+	return {
+		title: meal.title,
+		description: meal.summary,
+	};
+};
+
 const MealDetails = ({ params }) => {
 	// console.log(params)
 	const meal = getMeal(params.mealSlug);
 
-if(!meal) {
-  notFound() // closest notfound page show
-}
+	if (!meal) {
+		notFound(); // closest notfound page show
+	}
 
 	meal.instructions = meal.instructions.replace(/\n/g, '<br />'); //сделали абзаці
 
